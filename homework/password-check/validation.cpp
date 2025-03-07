@@ -1,5 +1,16 @@
 #include "validation.hpp"
 #include <algorithm>
+#include <iostream>
+
+bool isspecial(char c)
+{
+    bool special = true;
+
+    if (std::isdigit(c) || std::isalpha(c)) {
+        special = false;
+    }
+    return special;
+}
 
 std::string getErrorMessage(ErrorCode code) {
     std::string msg = "Unknown";
@@ -57,14 +68,11 @@ ErrorCode checkPasswordRules(std::string str) {
 
     if (str.length() < 9) {
         result = ErrorCode::PasswordNeedsAtLeastNineCharacters;
-    }
-    if (std::none_of(str.begin(), str.end(), ::isdigit)) {
+    } else if (std::none_of(str.begin(), str.end(), ::isdigit)) {
         result = ErrorCode::PasswordNeedsAtLeastOneNumber;
-    }
-    if (std::any_of(str.begin(), str.end(), ::isalpha)) {
+    } else if (std::none_of(str.begin(), str.end(), isspecial)) {
         result = ErrorCode::PasswordNeedsAtLeastOneSpecialCharacter;
-    }
-    if (std::any_of(str.begin(), str.end(), ::isupper)) {
+    } else if (std::none_of(str.begin(), str.end(), ::isupper)) {
         result = ErrorCode::PasswordNeedsAtLeastOneUppercaseLetter;
     }
     return result;
