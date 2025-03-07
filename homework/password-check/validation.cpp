@@ -2,8 +2,7 @@
 #include <algorithm>
 #include <iostream>
 
-bool isspecial(char c)
-{
+bool isspecial(char c) {
     bool special = true;
 
     if (std::isdigit(c) || std::isalpha(c)) {
